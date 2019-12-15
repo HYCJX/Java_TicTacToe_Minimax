@@ -1,7 +1,7 @@
 public class Board {
 
-    private static final int rowLength = 3;
-    private static final int columnLength = 3;
+    public static final int rowLength = 3;
+    public static final int columnLength = 3;
 
     private Symbol[][] board = new Symbol[rowLength][columnLength];
 
@@ -19,6 +19,17 @@ public class Board {
 
     public void setBoard(int row, int column, Symbol symbol) {
         board[row][column] = symbol;
+    }
+
+    public boolean hasMovesLeft() {
+        for (int row = 0; row < rowLength; row++) {
+            for (int column = 0; column < columnLength; column++) {
+                if (board[row][column] == Symbol.DEFAULT) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean evaluate() {
@@ -56,7 +67,12 @@ public class Board {
             System.out.println("Player 2 wins");
             return true;
         }
-
+        //Check tie condition:
+        if (!hasMovesLeft()) {
+            System.out.println("This is a tie game.");
+            return true;
+        }
+        //Haven't finished:
         return false;
     }
 
