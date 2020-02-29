@@ -23,37 +23,45 @@ public class AI implements DecisionMaker {
     playBoard.setBoard(row, column, symbol);
   }
 
+  // The implementation of the minimax algorithm:
   private int minimax(Symbol symbol, Board playBoard, int depth, boolean isMax) {
+    // Determine opponent symbol:
     Symbol opponentSymbol;
     if (symbol.equals(Symbol.CIRCLE)) {
       opponentSymbol = Symbol.CROSS;
     } else {
       opponentSymbol = Symbol.CIRCLE;
     }
+    // Evaluate moves:
     Symbol[][] board = playBoard.getBoard();
+    // Evaluate current situation:
     int score = evaluate(symbol, board);
+    // Base case - the board is full:
     if (score == 10 || score == -10 || !playBoard.hasMovesLeft()) {
       return score;
     }
-    int result = 0;
+    // Recursive evaluationsL
+    int result;
     if (isMax) {
+      // Maximiser branch:
       result = -1000;
       for (int row = 0; row < Board.rowLength; row++) {
         for (int column = 0; column < Board.columnLength; column++) {
           if (board[row][column].equals(Symbol.DEFAULT)) {
             playBoard.setBoard(row, column, symbol);
-            result = Math.max(result, minimax(symbol, playBoard, depth + 1, !isMax));
+            result = Math.max(result, minimax(symbol, playBoard, depth + 1, false));
             playBoard.setBoard(row, column, Symbol.DEFAULT);
           }
         }
       }
     } else {
+      // Minimiser branch:
       result = 1000;
       for (int row = 0; row < Board.rowLength; row++) {
         for (int column = 0; column < Board.columnLength; column++) {
           if (board[row][column].equals(Symbol.DEFAULT)) {
             playBoard.setBoard(row, column, opponentSymbol);
-            result = Math.min(result, minimax(symbol, playBoard, depth + 1, !isMax));
+            result = Math.min(result, minimax(symbol, playBoard, depth + 1, true));
             playBoard.setBoard(row, column, Symbol.DEFAULT);
           }
         }
@@ -62,6 +70,7 @@ public class AI implements DecisionMaker {
     return result;
   }
 
+  // Evaluation heuristics:
   private int evaluate(Symbol symbol, Symbol[][] board) {
     Symbol opponentSymbol;
     if (symbol.equals(Symbol.CIRCLE)) {

@@ -1,6 +1,6 @@
 public class Player {
 
-  private DecisionMaker decisionMaker;
+  private DecisionMaker decisionMaker; // Dependency injection of playing strategies.
   private Symbol symbol;
 
   public Player(Symbol symbol) {

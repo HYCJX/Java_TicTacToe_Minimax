@@ -1,3 +1,4 @@
+/* The Tic Tac Toe Board */
 public class Board {
 
   public static final int rowLength = 3;
@@ -32,6 +33,8 @@ public class Board {
     return false;
   }
 
+  // Return if the game has ended:
+  // Print out which player wins:
   public boolean evaluate() {
     // Check rows:
     for (int row = 0; row < rowLength; row++) {
